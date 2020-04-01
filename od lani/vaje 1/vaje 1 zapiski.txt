@@ -1,0 +1,16 @@
+Napotki pri programiranju v MatLabu
+- uporaba vgrajenih ukazov
+- alociranje prostora vnaprej (povemo kako dolg vektor bo)
+- uporaba vektorskih in matricnih funkcij (izogibamo se for zankam)
+  (namesto frobeniousove norme po definiciji kaj boljsega za izracun,
+   kvadriramo po elementih, uporabimo pikico in nato sestejemo z dvema sum
+   sqrt(sum(sum(X.^2))) )
+- funkcije f = @(x) x.^2 (uporabljamo pikice, sicer imamo problem pri kvadriranju vektorjev)
+ 
+
+merjenje casa
+na zacetku kode tic in na koncu toc
+
+ko uporabljamo zanke polnimo najprej stolpce in nato vrstice (tako shranjuje matlab)
+
+za for zanke lahko tudi 2:end

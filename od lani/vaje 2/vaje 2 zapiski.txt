@@ -1,0 +1,24 @@
+plot([1,2],[3,-1])
+najprej so x in nato y koordinate => dobimo tocki (1,3),(2,-1), ki sta povezani z daljico
+(matlab tocke povezuje z daljicami)
+
+## zapis funkcij
+f = @(x) sin(x).*exp(sqrt(x)); (dodamo pikico, da lahko funkcijo uporabimo tudi na vektorjih)
+
+t = linspace(1,3,200) interval od 1 do 3 z 200 delilnimi tockami
+plot(t,f(t))
+
+## funkcije dveh spremenljivk
+h = @(x,y) ...
+x = linspace...
+y = linspace...
+[X,Y] = meshgrid(x,y)
+Z = h(X,Y)
+surf(X,Y,Z) ali mesh(X,Y,Z)
+
+plot3 za 3 koordinate
+
+
+
+za animacijo
+funkcija pause(cas)
