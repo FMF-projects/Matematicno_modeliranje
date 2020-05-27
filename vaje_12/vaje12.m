@@ -6,11 +6,8 @@ b = [0 1 2 3; 0 2 -1 1];
 
 %[b1, b2] = sub_demo(b,1/3)
 
-l = [0 1/2; 1 0.1];
-P = pravokotnik(b);
-seka_pravokotnik(l,P);
+l = [0 1/2; 1 0.1]';
+%P = pravokotnik(b);
+%seka_pravokotnik(l,P);
 
-hold on
-plot(P(1,:),P(2,:))
-plot([l(1,1) l(1,1)+l(2,1)],[l(1,2) l(1,2)+l(2,2)])
-hold off
+presek_s_premico(b,l,1e-8)

@@ -29,10 +29,10 @@ for i=1:n
 end
 
 % narisemo
-hold on
-plotBezier(b0)
-plotBezier(b1)
-plotBezier(b2)
-hold off
+%hold on
+%plotBezier(b0)
+%plotBezier(b1)
+%plotBezier(b2)
+%hold off
 end
 
