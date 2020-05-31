@@ -1,15 +1,21 @@
-function v = bezier_der(b,t)
-% ODVOD_BEZIER izracuna tangentni vektor na Bezierovo krivuljo pri
-% parametru t.
-% Stolpci matrike b so kontrolne tocke Bezierove krivulje.
+function V = bezier_der(b,t)
+% ODVOD_BEZIER izracuna tangentni vektor na Bezierovo 
+% krivuljo pri parametru t. Stolpci matrike b so 
+% kontrolne tocke Bezierove krivulje.
 
-n = size(b,2) - 1;
+% izracunamo delte za b_i
+n = size(b,2)-1;
+delta = zeros(2,n);
+for i=1:n
+   delta(:,i) = b(:,i+1) - b(:,i);
+end
 
-% Najprej izracunamo preme diference kontrolnih tock dP_i = b_{i+1} - b_i
-dP = b(:,2:end)-b(:,1:(end-1));
-
-
-% tangentni vektor
-v = n*deCasteljau(dP,t);
+% sedaj uporabimo deCaste... in pomnozimo z n
+% ce je t slucajno vektor...
+m = length(t);
+V = zeros(2,m);
+for i=1:m
+    V(:,i) = n .* deCasteljau(delta,t(i));
+end
 end
 

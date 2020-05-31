@@ -1,4 +1,5 @@
 bC = [0 1 2 3 4 2 1.5 1; 0 2 -1 1 3 2 1 0];
+plotBezier(bC)
 
 % Nasvet: ce boste uporabljali metode fsolve, 
 % fminsearch ipd., uporabite nastavitev 
@@ -7,7 +8,7 @@ bC = [0 1 2 3 4 2 1.5 1; 0 2 -1 1 3 2 1 0];
 
 options = optimoptions(@fsolve,'TolFun',1e-16);
 
-t = linspace(0,1,10000000);
+t = linspace(0,1,100);
 B = zeros(2,length(t));
 V = zeros(2,length(t));
 for i = 1:length(t)
@@ -15,9 +16,10 @@ for i = 1:length(t)
     V(:,i) = bezier_der(bC,t(i));
 end
 
+
 % 1.vprasanje: Krivuljo bk dobite iz b tako, 
 % da krivuljo b ustrezno zavrtite in vzporedno 
-% premaknete, da velja b(0)=bk(1) in b(1)=bk(0). 
+% premaknete, da velja b(0)=bk(10) in b(1)=bk(0). 
 % Koliksna je vrednost ?bk(1/3)?2?
 b0 = deCasteljau(bC,0);
 b1 = deCasteljau(bC,1);
@@ -36,28 +38,33 @@ norma = norm(deCasteljau(bk,1/3));
 % 2.vprasanje: Krivuljo b pri samopreseciscu razdelimo 
 % na 3 manjse Bezierjeve krivulje, ki jih oznacimo 
 % zaporedoma z b1,b2,b3. Dolocite vse 3 krivulje. 
-% Koliksna je vrednost ?b2(1/3)?2, ce je b2 
+% Koliksna je vrednost ||b2(1/3)||_2, ce je b2 
 % parametrizirana z lokalnim parametrom na intervalu [0,1]?
 
-% poiskati moramo samopresecisce
-[C ia ib] = unique(B','rows','stable');
-i = true(size(B',1),1);
-i(ia)=false;
+% poiscemo samopresecisce
+
 
 % 3.vprasanje: Koliksna je dolzina krivulje b?
-%vzela 10^7
-dolzina = 0;
-for i=1:size(B,2)-1
-    d = sqrt((B(1,i)-B(1,i+1)).^2 + (B(2,i)-B(2,i+1)).^2);
-    dolzina = dolzina + d;
-end
-dolzina;
+y = bC(2,4);
+d = dolzina(bC,y);
 
 
 % 4.vprasanje: Koliksna je x-komponenta tezisca krivulje b?
-Tx = sum(B(1,:)) / length(t);
+s = @(t) sqrt(sum(bezier_der(bC,t).^2));
+fx = @(t) deCasteljau_x(bC,t) .* s(t);
+
+Tx = integral(fx,0,1) / d;
 
 
+
+% 5.vprasanje: Ordinato cetrte kontrolne tocke 
+% krivulje b dolocite tako, da bo dolzina krivulje
+% b cim manjsa. Koliksna je dolzina optimalne krivulje b? 
+f = @(y) dolzina(bC,y);
+y5 = fminsearch(f,1);
+
+c = bC;
+dol = dolzina(c,y5);
 
 
 

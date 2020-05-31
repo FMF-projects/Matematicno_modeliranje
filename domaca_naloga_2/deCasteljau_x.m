@@ -1,8 +1,9 @@
-function T = deCasteljau(b,t)
+function Tx = deCasteljau_x(b,t)
 % DE_CASTELJAU izracuna tocko na Bezierovi krivulji pri parametru t
 % s pomocjo de Casteljauovega algoritma.
 % Stolpci matrike b so kontrolne tocke Bezierove krivulje.
 
+% vrne x koordinato
 % prilagodimo za primer, ko je t vektor
 n = size(b,2);
 m = length(t);
@@ -16,4 +17,5 @@ for i=1:m
     end
     T(:,i) = c(:,1);
 end
+Tx = T(1,:);
 end
