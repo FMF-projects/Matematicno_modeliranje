@@ -20,9 +20,9 @@ u = atanh((B-A)/l) - z;
 C = (b-a)/(v-u);
 D = (a*v - b*u)/(v-u);
 
-lambda = A - C*cosh((a-D)/C);
+lambda = A - C*cosh((a-D)/C); 
 
-w = @(x) lambda + C .* cosh((x-D)./C);
+w = @(x) lambda + C .* cosh((x-D)./C); %(4)
 
 X = linspace(a,b);
 plot(X,w(X));
@@ -65,7 +65,5 @@ dolzina = integral(s,xp2,5);
 k = @(x) izracunaj_D(a,A,b,x,l);
 m = @(x) k(x) - 2.5;
 B2 = fsolve(m,3);
-
-
 end
 

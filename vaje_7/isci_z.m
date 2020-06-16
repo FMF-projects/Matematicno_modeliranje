@@ -14,12 +14,13 @@ A = T1(2);
 b = T2(1);
 B = T2(2);
 
-ro = l/(b-a)*sqrt(1-((B-A)/l)^2);
+ro = l/(b-a)*sqrt(1-((B-A)/l)^2); %(16)
 
 f = @(x) asinh(ro*x);
 z = f(z0);
 k = 0;
 N = 100;
+% resimo enacbo (15) z Jacobijevo iteracijo
 while k < N && abs(z - z0) >= tol
     k = k + 1;
     z0 = z;
