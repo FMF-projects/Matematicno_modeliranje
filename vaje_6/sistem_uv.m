@@ -17,15 +17,15 @@ ksi = [];
 eta = [];
 n = length(L);
 for i=1:n
-   k = L(i) / sqrt(1 + (v - u * vsote_mi(i))^2);
+   k = L(i) / sqrt(1 + (v - u * vsote_mi(i))^2); %(27)
    ksi = [ksi k];
    
-   e = k * (v - u * vsote_mi(i));
+   e = k * (v - u * vsote_mi(i)); %(25)
    eta = [eta e];
 end
 
-U = sum(ksi) - zac(1,2) + zac(1,1);
-V = sum(eta) - zac(2,2) + zac(2,1);
+U = sum(ksi) - zac(1,2) + zac(1,1); %(30)
+V = sum(eta) - zac(2,2) + zac(2,1); %(31)
 
 Z = [U V];
 
