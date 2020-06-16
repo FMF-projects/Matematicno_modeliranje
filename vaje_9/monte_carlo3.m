@@ -1,5 +1,6 @@
 function [I] = monte_carlo3(f,a1,b1,a2,b2,a3,b3,N)
 % aproksimira trojni integral funkcije f
+% po metodi povprecne vrednosti
 
 I = 0;
 for i=1:N
