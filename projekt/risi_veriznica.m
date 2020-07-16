@@ -1,4 +1,4 @@
-function risi_veriznica(zac,L,M)
+function X = risi_veriznica(zac,L,M)
 % RISI_VER_UV narise sliko veriznice
 %
 % Vhodni parametri:
@@ -6,15 +6,18 @@ function risi_veriznica(zac,L,M)
 % (x_n+1, y_n+1) obesisci.
 % L je vrstica, ki doloca dolzine palic.
 % M je vrstica, ki doloca mase palic.
-u0 = -1;
-X = ver_u(u0,zac,L,M);
 
-W0 = [-1,-1];
-Y = ver_uv(W0,zac,L,M);
-
-plot(X(1,:),X(2,:))
-%plot(Y(1,:),Y(2,:))
+n = length(L);
+r = rem(n,2);
+if r == 0
+    W0 = [-1,-1];
+    X = ver_uv(W0,zac,L,M);
+    plot(X(1,:),X(2,:));
+else
+    u0 = -1;
+    X = ver_u(u0,zac,L,M);
+    plot(X(1,:),X(2,:))
+end
 grid on
-
 end
 
