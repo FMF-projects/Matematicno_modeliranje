@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{array}
 \usepackage{amsfonts}
+\usepackage{amsmath}
 \usepackage{pifont}
 \usepackage{theorem}
 \usepackage{authblk}
@@ -42,7 +43,7 @@ Imamo diskretno verižnico, to je verižnico sestavljeno iz palic, katerih dolž
 
 V nadaljevanju bom predstavila postopek rešitve za poseben primer diskretne verižnice in sicer za simetrično diskretno verižnico z liho mnogo členki. Simetričnost pomeni, da sta točki $T1$ in $T2$ na enaki višini, ter da so dolžine in mase palic simetrične glede na sredinsko palico. Oglejmo si sedaj še matematično formulacijo problema.
 
-Diskretna verižnica je sestavljena iz $2p+1$ palic, kjer je $p \in \mathbb{N}$. Poznamo dolžine in mase palic, torej $L_i$ in $M_i$ za $i=1 \ldots 2p+1$. Želimo izračunati koordinate krajišč palic $(x_i,y_i)$ za $i=1 \ldots 2p$, $(x_0,y_0)$ in $(x_{2p+1},y_{2p+1})$ pa že poznamo, saj sta to obesišči verižnice, torej $T1$ in $T2$. Zaradi simetričnosti velja $y_0 = y_{2p+1}$ ter $L_{2p+2-i} = L_i$ in $M_{2p+2-i} = M_i$ za $i=1 \ldots p$.
+Diskretna verižnica je sestavljena iz $2p+1$ palic, kjer je $p \in \mathbb{N}$. Poznamo dolžine in mase palic, torej $L_i$ in $M_i$ za $i=1, \ldots, 2p+1$. Želimo izračunati koordinate krajišč palic $(x_i,y_i)$ za $i=1, \ldots, 2p$, $(x_0,y_0)$ in $(x_{2p+1},y_{2p+1})$ pa že poznamo, saj sta to obesišči verižnice, torej $T1$ in $T2$. Zaradi simetričnosti velja $y_0 = y_{2p+1}$ ter $L_{2p+2-i} = L_i$ in $M_{2p+2-i} = M_i$ za $i=1, \ldots, p$.
 
 % slika simetricne z lihim stevilom clenov
 
@@ -53,13 +54,71 @@ Diskretna verižnica je sestavljena iz $2p+1$ palic, kjer je $p \in \mathbb{N}$.
 
 Prvi del postopka je enak kot pri rešitvi za splošno diskretno verižnico, le da že upoštevamo liho število palic in pišemo $2p+1$ namesto $n+1$. 
 Minimizirati želimo potencialno energijo verižnice oziroma sistema homogenih palic. Potencialno energijo posamezne palice opišemo z enačbo
-\[ W_i = \frac{1}{2} \cdot M_i \cdot g \cdot (y_{i-1} + y_i) \quad za \quad i=1 \ldots 2p+1 \]
-zato je potencialna energija celotne verižnice enaka
-\[ W = \sum_{1}^{2p+1} W_i = \sum_{1}^{2p+1} \frac{1}{2} \cdot M_i \cdot g \cdot (y_{i-1} + y_i) \]
+\[ W_i = \frac{1}{2} \cdot M_i \cdot g \cdot (y_{i-1} + y_i) \quad za \quad i=1, \ldots, 2p+1 \]
+torej je potencialna energija celotne verižnice enaka
+\[ W = \sum_{i=1}^{2p+1} W_i = \sum_{i=1}^{2p+1} \frac{1}{2} \cdot M_i \cdot g \cdot (y_{i-1} + y_i) \]
 $g$ je gravitacijska konstanta in ne vpliva na minimum potencialne energije, zato jo lahko izpustimo in obravnavamo le funkcijo
-\[ F(x,y) = \sum_{1}^{2p+1} \frac{1}{2} \cdot M_i \cdot (y_{i-1} + y_i) \]
-Za iskane točke $(x_i,y_i)$ velja Pitagorov izrek $(x_i - x_{i-1})^2 + (y_i - y_{i-1})^2 = L_i ^2$, torej iščemo vezani ekstrem. Uporabimo Lagrangeovo metodo in problem prevedemo na reševanje (nevezanega) ekstrema funkcije
-\[ G(x,y,\lambda) = \sum_1^{2p+1} \frac{1}{2} M_i (y_{i-1} - y_i) + \lambda_i ((x_i - x_{i-1})^2 + (y_i - y_{i-1})^2 - L_i ^2) \]
+\[ F(x,y) = \sum_{i=1}^{2p+1} \frac{1}{2} \cdot M_i \cdot (y_{i-1} + y_i) \]
+Za iskane točke $(x_i,y_i)$ velja še Pitagorov izrek $(x_i - x_{i-1})^2 + (y_i - y_{i-1})^2 = L_i ^2$, kar pomeni, da iščemo vezani ekstrem. 
+
+Uporabimo Lagrangeovo metodo in problem prevedemo na reševanje (nevezanega) ekstrema funkcije
+\[ G(x,y,\lambda) = \sum_{i=1}^{2p+1} \frac{1}{2} M_i (y_{i-1} - y_i) + \lambda_i ((x_i - x_{i-1})^2 + (y_i - y_{i-1})^2 - L_i ^2 \]
+$G$ parcialno odvajamo z $x_i, y_i$ za $i=1, \ldots, 2p$ ter z $\lambda_i$ za $i=1, \ldots, 2p+1$.
+
+\[ \frac{\partial G}{\partial x_i} = 2\lambda_i (x_i - x_{i-1}) - 2\lambda_{i+1} (x_{i+1} - x_i) \qquad i=1, \ldots, 2p \]
+\[ \frac{\partial G}{\partial y_i} = \frac{1}{2} (M_i + M_{i+1}) + 2\lambda_i (y_i - y_{i-1}) - 2\lambda_{i+1} (y_{i+1} - y_i) \qquad  i=1, \ldots, 2p \]
+\[ \frac{\partial G}{\partial \lambda_i} = (x_i - x_{i-1})^2 + (y_i - y_{i-1})^2 - L_i ^2 \qquad i=1, \ldots, 2p+1 \]
+Za preglednejši zapis uvedemo 
+\[ \xi_i = x_i - x_{i-1} \]
+\[ \eta_i = y_i - y_{i-1} \]
+\[ \mu_i = \frac{M_i + M_{i+1}}{2} \] 
+za $i=1, \ldots, 2p+1$, odvode enačimo z 0, še malo uredimo in dobimo $6p+1$ enačb
+
+\begin{equation}
+\lambda_i \xi_i - \lambda_{i+1} \xi_{i+1} = 0 \qquad i=1, \ldots, 2p 
+\end{equation}
+
+\begin{equation}
+\lambda_i \eta_i - \lambda_{i+1} \eta_{i+1} = - \frac{1}{2} \mu_i \qquad i=1, \ldots, 2p 
+\end{equation}
+
+\begin{equation}
+\xi_i ^2 + \eta_i ^2 = L_i ^2 \qquad i=1, \ldots, 2p+1 
+\end{equation}
+
+Zgornji sistem enačb v primeru splošne diskretne verižnice preoblikujemo v sistem dveh enačb za 2 neznanki. V našem primeru pa bomo zaradi lihega števila členov in simetričnosti verižnice sistem lahko preoblikovali kar v eno enačbo z eno neznanko. 
+
+Za $i=1, \ldots, 2p$ zapišemo
+\[ \lambda_i \xi_i = - \frac{1}{2u} \qquad oziroma \qquad \lambda_i = - \frac{1}{2u \xi_i}  \]
+vstavimo v enačbo (2) in dobimo
+\[ \frac{\eta_i}{2u \xi_i} - \frac{\eta_{i+1}}{2u \xi_{i+1}} = \frac{1}{2} \mu_i \qquad i=1, \ldots, 2p \]
+Z nekaj preurejanja pridemo do rekurzivne enačbe
+\[ \frac{\eta_{i+1}}{\xi_{i+1}} =  \frac{\eta_i}{\xi_i} - u \mu_i \]
+Ker enaka enačba velja tudi za $\frac{\eta_i}{\xi_i}, \frac{\eta_{i-1}}{\xi_{i-1}}$ itd., dobimo naslednjo zvezo
+\begin{equation}
+\begin{split}
+\frac{\eta_{i}}{\xi_{i}} & =  \frac{\eta_{i-1}}{\xi_{i-1}} - u \mu_{i-1}  \\
+                                               & =  \frac{\eta_{i-2}}{\xi_{i-2}} - u \mu_{i-2} - u \mu_{i-1}  \\
+                                               & = \ldots  \\
+                                               & = \frac{\eta_1}{\xi_1} - u (\mu_2 - \mu_3 - \ldots - \mu_{i-1})  \\
+                                               & = \frac{\eta_1}{\xi_1} - u \sum_{j=1}^{i-1} \mu_j
+\end{split}
+\end{equation}
+
+Označimo $v = \frac{\eta_1}{\xi_1}$. Pri splošni diskretni verižnici smo sistem enačb izrazili z $v$ in $u$ ter nato poiskali ustrezna približka. V našem primeru, pa lahko zaradi posebnih lastnosti verižnice, $v$ zapišemo kot izraz odvisen od $u$ in celoten sistem sistem izrazimo le z $u$.
+
+Diskretna verižnica ima liho število palic, ki se paroma ujemajo glede na sredinsko palico, tako po masi, kot tudi po dolžini. Ker sta tudi obesišči na enaki višini, iz vseh teh lastnosti sledi, da je sredinska palica vzporedna $x$ osi. V matematičnem jeziku to pomeni
+\begin{equation}
+x_{p+1} - x_p = \xi_{p+1} = L_{p+1} \qquad in \qquad y_{p+1} - y_p = \eta_{p+1} = 0
+\end{equation}
+kjer sta $(x_p,y_p), (x_{p+1}, y_{p+1})$ krajišči sredinske palice.
+% dodaj sliko
+Enačbi iz (5) sedaj uporabimo v (4) in dobimo
+\[ \frac{\eta_{p+1}}{\xi_{p+1}} =  \frac{\eta_1}{\xi_1} - u \sum_{j=1}^{p} \mu_j \]
+\[ 0 =  \frac{\eta_1}{\xi_1} - u \sum_{j=1}^{p} \mu_j \]
+\[ \frac{\eta_1}{\xi_1} = v =  u \sum_{j=1}^{p} \mu_j \]
+
+Sedaj lahko enačbo (4) zapišemo kot
 
 % REZULTATI
 
