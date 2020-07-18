@@ -119,6 +119,25 @@ Enačbi iz (5) sedaj uporabimo v (4) in dobimo
 \[ \frac{\eta_1}{\xi_1} = v =  u \sum_{j=1}^{p} \mu_j \]
 
 Sedaj lahko enačbo (4) zapišemo kot
+\begin{equation} 
+\frac{\eta_{i}}{\xi_{i}} = u \left (\sum_{j=1}^{p} \mu_j - \sum_{j=1}^{i-1} \mu_j \right )
+\end{equation}
+jo vstavimo v enačbo (3), ter izrazimo $\xi_i$
+\[ \xi_i ^2 + \xi_i ^ 2 u^2 \left (\sum_{j=1}^{p} \mu_j - \sum_{j=1}^{i-1} \mu_j \right ) ^2 = L_i ^2 \]
+\begin{equation}
+\xi_i = \frac{L_i}{\sqrt{1 + u^2 \left (\sum_{j=1}^{p} \mu_j - \sum_{j=1}^{i-1} \mu_j \right ) ^2}} \qquad i = 1, \ldots, 2p+1
+\end{equation}
+Izbrali smo pozitivno rešitev za $\xi_i$, saj verižnico opazujemo od levega obesišča proti desnemu in so zato $\xi_i$ pozitivni.
+
+Enačbe (1),(2),(3) smo uspešno izrazili le $u$, kar pomeni, da moramo sedaj najti ustrezen približek zanj. Nato $u$ vstavimo v enačbo (7), ki nam poda vrednosti za vse $\xi_i$. Le-te uporabimo v enačbi (6) in dobimo še vrednosti za $\eta_i$. S tem smo našli vrednosti vseh koordinat krajišč palic, saj iz definicije $\xi_i$ in $\eta_i$ sledi 
+\begin{equation}
+\begin{split}
+x_i = x_0 + \sum_{j=1}^{i} \xi_j \qquad i = 1, \ldots, 2p+1 \\
+y_i = y_0 + \sum_{j=1}^{i} \eta_j \qquad i = 1, \ldots, 2p+1
+\end{split}
+\end{equation}
+
+Približek za $u$ bomo poiskali z Newtonovo metodo.
 
 % REZULTATI
 
