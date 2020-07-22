@@ -6,12 +6,13 @@ function y = newton(F,JF,x0,delta)
 % za manj kot delta. Vrnemo zadnji izracunani priblizek y.
 
 napaka = Inf;
-while napaka > delta
+i = 1;
+while napaka > delta && i < 1000
+    i = i+1;
     dx = -JF(x0)\F(x0);
     xn = x0 + dx;
     napaka = max(abs(xn-x0));
     x0 = xn;
 end
 y=x0;
-
 end

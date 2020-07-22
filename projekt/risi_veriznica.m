@@ -10,13 +10,13 @@ function X = risi_veriznica(zac,L,M)
 n = length(L);
 r = rem(n,2);
 if r == 0 % sodo stevilo clenkov -> uporabimo postopek za splosno diskretno veriznico 
-    W0 = [-1,-1]; % zacetni priblizek
+    W0 = [-1; -1]; % zacetni priblizek
     X = ver_uv(W0,zac,L,M);
-    plot(X(1,:),X(2,:));
+    plot(X(1,:),X(2,:),'-o');
 else % liho stevilo clenkov -> uporabimo prirejen postopek z eno spremenljivko
     u0 = -1; % zacetni priblizek
     X = ver_u(u0,zac,L,M);
-    plot(X(1,:),X(2,:))
+    plot(X(1,:),X(2,:),'-o')
 end
 grid on
 end

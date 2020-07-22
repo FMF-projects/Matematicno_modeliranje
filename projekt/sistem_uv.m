@@ -19,6 +19,6 @@ eta = ksi .* (v - u .* vsote_mi); %(25)
 U = sum(ksi) - zac(1,2) + zac(1,1); %(30)
 V = sum(eta) - zac(2,2) + zac(2,1); %(31)
 
-Z = [U V];
+Z = [U; V];
 end
 

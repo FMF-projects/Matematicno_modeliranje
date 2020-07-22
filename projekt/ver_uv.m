@@ -21,12 +21,11 @@ for i=2:n
     vsote_mi = [vsote_mi vsota];
 end
 
+% Newtonova metoda
 F = @(W) sistem_uv(W,zac,L,vsote_mi);
-Z = fsolve(F,W0);
-
-% z newtonovo metodo
-%JF = @(W) jacobian_uv(W,L,vsote_mi);
-%Z = newton(sistem,JF,W0,1e-14);
+%Z = fsolve(F, W0);
+JF = @(W) jacobian_uv(W,L,vsote_mi);
+Z = newton(F,JF,W0,1e-14);
 
 u = Z(1);
 v = Z(2);
