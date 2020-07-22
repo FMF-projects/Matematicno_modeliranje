@@ -10,6 +10,8 @@
 \usepackage{url}
 
 \usepackage{graphicx}
+\usepackage{subcaption}
+\graphicspath{ {slike/} }
 
 \title{Problem simetrične diskretne verižnice z liho mnogo členki}
 \author{Klementina Pirc}
@@ -39,14 +41,22 @@
 
 Imamo diskretno verižnico, to je verižnico sestavljeno iz palic, katerih dolžino in maso poznamo. Konca verižnice pritrdimo v točki $T1$ in $T2$. Zanima nas oblika verižnice, ki pri tem nastane, torej želimo izračunati koordinate stičišč palic. Vemo, da na verižnico deluje sila gravitacije, zato bo njena oblika takšna, da bo potencialna energija verižnice najmanjša možna. 
 
-% vstavi sliko neke diskretne veriznice
-
 V nadaljevanju bom predstavila postopek rešitve za poseben primer diskretne verižnice in sicer za simetrično diskretno verižnico z liho mnogo členki. Simetričnost pomeni, da sta točki $T1$ in $T2$ na enaki višini, ter da so dolžine in mase palic simetrične glede na sredinsko palico. Oglejmo si sedaj še matematično formulacijo problema.
 
 Diskretna verižnica je sestavljena iz $2p+1$ palic, kjer je $p \in \mathbb{N}$. Poznamo dolžine in mase palic, torej $L_i$ in $M_i$ za $i=1, \ldots, 2p+1$. Želimo izračunati koordinate krajišč palic $(x_i,y_i)$ za $i=1, \ldots, 2p$, $(x_0,y_0)$ in $(x_{2p+1},y_{2p+1})$ pa že poznamo, saj sta to obesišči verižnice, torej $T1$ in $T2$. Zaradi simetričnosti velja $y_0 = y_{2p+1}$ ter $L_{2p+2-i} = L_i$ in $M_{2p+2-i} = M_i$ za $i=1, \ldots, p$.
 
-% slika simetricne z lihim stevilom clenov
+\begin{figure}[h]
+\begin{subfigure}{.5\textwidth}
+\includegraphics[scale=0.5]{diskretna_premaknjena}
+\caption{Diskretna verižnica}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+\includegraphics[scale=0.5]{simetricna_liha}
+\caption{Simetrična diskretna verižnica z liho mnogo členki}
+\end{subfigure}
+\end{figure}
 
+\hspace{0.5cm}
 
 % REŠEVANJE
 
@@ -116,7 +126,7 @@ Diskretna verižnica ima liho število palic, ki se paroma ujemajo glede na sred
 x_{p+1} - x_p = \xi_{p+1} = L_{p+1} \qquad in \qquad y_{p+1} - y_p = \eta_{p+1} = 0
 \end{equation}
 kjer sta $(x_p,y_p), (x_{p+1}, y_{p+1})$ krajišči sredinske palice.
-% dodaj sliko
+
 Enačbi iz (6) sedaj uporabimo v (5) in dobimo
 \[ \frac{\eta_{p+1}}{\xi_{p+1}} =  \frac{\eta_1}{\xi_1} - u \sum_{j=1}^{p} \mu_j \]
 \[ 0 =  \frac{\eta_1}{\xi_1} - u \sum_{j=1}^{p} \mu_j \]
@@ -147,7 +157,7 @@ kjer je $f$ funkcija, katere ničlo iščemo, $f'$ pa njen odvod.
 
 Preden lahko uporabimo Newtonovo metodo, moramo definirati funkcijo $U(u)$, katere približek za ničlo bo naš približek za $u$.
 Če upoštevamo, da je $\xi_i = x_i - x_{i-1}$, vidimo da lahko zapišemo
-\[ U(u) = \sum_{i=1}^{n+1} \xi_i - x_{n+1} + x_0 = 0 \]
+\[ U(u) = \sum_{i=1}^{2p+1} \xi_i - x_{2p+1} + x_0 = 0 \]
 in $u$ res nastopa v zgornji funkciji, saj smo $\xi_i$ izrazili z njim. Za preglednejši zapis definiramo še 
 \begin{equation}
 w_i = u \nu_i \qquad i=1, \ldots, 2p+1
@@ -157,11 +167,11 @@ w_i = u \nu_i \qquad i=1, \ldots, 2p+1
 \end{equation}
 in dobimo
 \begin{equation}
-U(u) =  \sum_{i=1}^{n+1} L_i (1 + w_i ^2) ^ {-\frac{1}{2}} - x_{n+1} + x_0
+U(u) =  \sum_{i=1}^{2p+1} L_i (1 + w_i ^2) ^ {-\frac{1}{2}} - x_{2p+1} + x_0
 \end{equation}
 Odvod $U$ pa je
 \begin{equation}
-U'(u) = \frac{dU}{du} (u) = - \sum_{i=1}^{n+1} L_i (1 + w_i ^2) ^ {-\frac{3}{2}} w_i \nu_i 
+U'(u) = \frac{dU}{du} (u) = - \sum_{i=1}^{2p+1} L_i (1 + w_i ^2) ^ {-\frac{3}{2}} w_i \nu_i 
 \end{equation}
 (12), (13) sedaj vstavimo v predpis za Newtonovo metodo in dobimo iteracijsko formulo s katero izračunamo približek za $u$. Izbrati moramo le še ustrezen začetni približek $u_0$. Iteracijo zaključimo, ko je razlika zadnjih dveh izračunanih približkov manjša od tolerance, ki smo jo izbrali.
 \[ u_{n+1} = u_n - \frac{U(u_n)}{U'(u_n)} \]
@@ -170,21 +180,79 @@ U'(u) = \frac{dU}{du} (u) = - \sum_{i=1}^{n+1} L_i (1 + w_i ^2) ^ {-\frac{3}{2}}
 
 \section{Implementacija}
 
+Poženemo skripto \textit{simetricna\_liha\_ver.m}, v kateri smo navedli:
+\begin{itemize}
+\item obesišči verižnice $(x_0,y_0)$,$(x_{2p+1},y_{2p+1})$ v obliki $zac = [x_0 \  x_{2p+1};\  y_0 \  y_{2p+1}]$, 
+\item vrstico dolžin palic $L = [L_1 \  L_2 \ \ldots \ L_{2p+1}]$,
+\item vrstico mas palic $M = [M_1 \ M_2 \ \ldots \ L_{2p+1}]$.
+\end{itemize}
+Najprej kličemo funkcijo \textit{risi\_veriznica(zac,L,M)}, ki nam vrne matriko iskanih koordinat koncev palic, hkrati pa še izriše obliko verižnice. Sedaj dani verižnici s funkcijo \textit{razpolovi\_palice(L,M)} vse palice razdelimo na dva enaka dela in tako dobimo podatke $L1, M1$ za novo diskretno verižnico. Z \textit{risi\_veriznica(zac,L1,M1)} poračunamo in izrišemo še njeno obliko. Nazadnje izvršimo še funkcijo \textit{animacija(X,X1)}, ki sprejme koordinate obeh verižnic in prikaže, kako so se posamezne točke premaknile.
+
+Prvotna verižnica ima liho mnogo členov, zato problem rešujemo po zgoraj opisanem postopku. Z razpolavljanjem palic pa dobimo verižnico s sodo mnogo členi in za reševanje uporabimo splošno rešitev, ki smo jo implementirali na vajah. Funkcija \textit{risi\_veriznica} se na podlagi dolžine vektorja $L$ odloči, kateri postopek bo uporabljen.
+
+V primeru lihega števila definira začetni približek $u_0$ in pokliče funkcijo \textit{ver\_u(u\_0,zac,L,M)}. Le-ta najprej izračuna vektor $\mu$ s členi $\mu_i$ iz enačbe (1) ter vektor \textit{vsote\_mi} delnih vsot iz enačbe (11). S pomočjo \textit{sistem\_u(u,zac,L,vsote\_mi)} dobimo predpis za funkcijo $U(u)$ (enačba (12)), potem pa poiščemo približek za njeno ničlo z Newtonovo metodo. Dobljen približek $u$ uporabimo v vektorjih \textit{ksi} in \textit{eta}, katerih elementi so definirani v enačbah (8) in (7). Nazadnje uporabimo še predpisa iz enačbe (9) in dobimo vektorja $x$,$y$ s koordinatami krajišč palic podane verižnice.
+
+
 % REZULTATI
 
 \section{Rezultati} 
+Oglejmo si nekaj primerov simetričnih diskretnih verižnic z lihim številom členov in pripadajočo verižnico, ki jo dobimo z razpolavljanjem palic. \\
+\\
+zac = [0 6; 0 0], \quad L = [2 1 2 1 2], \quad M = [1 0.5 1 0.5 1]
+\begin{figure}[h]
+\begin{subfigure}{.5\textwidth}
+\includegraphics[scale=0.5]{simetricna_liha}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+\includegraphics[scale=0.5]{prepolovljena}
+\end{subfigure}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.8]{liha_in_soda}
+\end{figure}
 
+\newpage
+
+zac = [0 3; 0 0], \quad L = [5 2 5], \quad M = [2 0.5 2]
+\begin{figure}[h]
+\begin{subfigure}{.5\textwidth}
+\includegraphics[scale=0.5]{simetricna_liha_2}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+\includegraphics[scale=0.5]{prepolovljena_2}
+\end{subfigure}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.8]{liha_in_soda_2}
+\end{figure}
+
+\newpage
+
+zac = [0 10; 0 0], \quad L = [4 3 2 1 2 3 4], \quad M = [3 2 1 1 1 2 3]
+\begin{figure}[h]
+\begin{subfigure}{.5\textwidth}
+\includegraphics[scale=0.5]{simetricna_liha_3}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+\includegraphics[scale=0.5]{prepolovljena_3}
+\end{subfigure}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.8]{liha_in_soda_3}
+\end{figure}
 
 
 % LITERATURA
 
 \begin{thebibliography}{9}
-% 1
-\bibitem{w-quatum}
-	Wikipedia, 2018. Quantum key distribution,  \\
-	Dostopno na:
-	\textit{\url{https://en.wikipedia.org/wiki/Quantum_key_distribution}}
-	[24.3.2018]
+\bibitem{veriznica}
+	E. Zakrajšek, \emph{Verižnica} (1999) od 6 do 10.
+	Dostopno na spletni učilnici FMF 2019/2020 predmeta Matematično modeliranje [22. 7. 2020]
+\bibitem{zapiski}
+	Zapiski s predavanj predmeta Matematično modeliranje.
 \end{thebibliography}
 
 \end{document}
