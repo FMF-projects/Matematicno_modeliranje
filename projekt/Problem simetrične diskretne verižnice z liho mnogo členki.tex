@@ -69,9 +69,13 @@ $G$ parcialno odvajamo z $x_i, y_i$ za $i=1, \ldots, 2p$ ter z $\lambda_i$ za $i
 \[ \frac{\partial G}{\partial y_i} = \frac{1}{2} (M_i + M_{i+1}) + 2\lambda_i (y_i - y_{i-1}) - 2\lambda_{i+1} (y_{i+1} - y_i) \qquad  i=1, \ldots, 2p \]
 \[ \frac{\partial G}{\partial \lambda_i} = (x_i - x_{i-1})^2 + (y_i - y_{i-1})^2 - L_i ^2 \qquad i=1, \ldots, 2p+1 \]
 Za preglednejši zapis uvedemo 
-\[ \xi_i = x_i - x_{i-1} \]
-\[ \eta_i = y_i - y_{i-1} \]
-\[ \mu_i = \frac{M_i + M_{i+1}}{2} \] 
+\begin{equation}
+\begin{split}
+\xi_i = x_i - x_{i-1} \\
+\eta_i = y_i - y_{i-1} \\
+\mu_i = \frac{M_i + M_{i+1}}{2}
+\end{split}
+\end{equation}
 za $i=1, \ldots, 2p+1$, odvode enačimo z 0, še malo uredimo in dobimo $6p+1$ enačb
 
 \begin{equation}
@@ -90,7 +94,7 @@ Zgornji sistem enačb v primeru splošne diskretne verižnice preoblikujemo v si
 
 Za $i=1, \ldots, 2p$ zapišemo
 \[ \lambda_i \xi_i = - \frac{1}{2u} \qquad oziroma \qquad \lambda_i = - \frac{1}{2u \xi_i}  \]
-vstavimo v enačbo (2) in dobimo
+vstavimo v enačbo (3) in dobimo
 \[ \frac{\eta_i}{2u \xi_i} - \frac{\eta_{i+1}}{2u \xi_{i+1}} = \frac{1}{2} \mu_i \qquad i=1, \ldots, 2p \]
 Z nekaj preurejanja pridemo do rekurzivne enačbe
 \[ \frac{\eta_{i+1}}{\xi_{i+1}} =  \frac{\eta_i}{\xi_i} - u \mu_i \]
@@ -113,23 +117,23 @@ x_{p+1} - x_p = \xi_{p+1} = L_{p+1} \qquad in \qquad y_{p+1} - y_p = \eta_{p+1} 
 \end{equation}
 kjer sta $(x_p,y_p), (x_{p+1}, y_{p+1})$ krajišči sredinske palice.
 % dodaj sliko
-Enačbi iz (5) sedaj uporabimo v (4) in dobimo
+Enačbi iz (6) sedaj uporabimo v (5) in dobimo
 \[ \frac{\eta_{p+1}}{\xi_{p+1}} =  \frac{\eta_1}{\xi_1} - u \sum_{j=1}^{p} \mu_j \]
 \[ 0 =  \frac{\eta_1}{\xi_1} - u \sum_{j=1}^{p} \mu_j \]
 \[ \frac{\eta_1}{\xi_1} = v =  u \sum_{j=1}^{p} \mu_j \]
 
-Sedaj lahko enačbo (4) zapišemo kot
+Sedaj lahko enačbo (5) zapišemo kot
 \begin{equation} 
 \frac{\eta_{i}}{\xi_{i}} = u \left (\sum_{j=1}^{p} \mu_j - \sum_{j=1}^{i-1} \mu_j \right )
 \end{equation}
-jo vstavimo v enačbo (3), ter izrazimo $\xi_i$
+jo vstavimo v enačbo (4), ter izrazimo $\xi_i$
 \[ \xi_i ^2 + \xi_i ^ 2 u^2 \left (\sum_{j=1}^{p} \mu_j - \sum_{j=1}^{i-1} \mu_j \right ) ^2 = L_i ^2 \]
 \begin{equation}
 \xi_i = \frac{L_i}{\sqrt{1 + u^2 \left (\sum_{j=1}^{p} \mu_j - \sum_{j=1}^{i-1} \mu_j \right ) ^2}} \qquad i = 1, \ldots, 2p+1
 \end{equation}
 Izbrali smo pozitivno rešitev za $\xi_i$, saj verižnico opazujemo od levega obesišča proti desnemu in so zato $\xi_i$ pozitivni.
 
-Enačbe (1),(2),(3) smo uspešno izrazili le $u$, kar pomeni, da moramo sedaj najti ustrezen približek zanj. Nato $u$ vstavimo v enačbo (7), ki nam poda vrednosti za vse $\xi_i$. Le-te uporabimo v enačbi (6) in dobimo še vrednosti za $\eta_i$. S tem smo našli vrednosti vseh koordinat krajišč palic, saj iz definicije $\xi_i$ in $\eta_i$ sledi 
+Enačbe (2),(3),(4) smo uspešno izrazili le z $u$, kar pomeni, da moramo sedaj najti ustrezen približek zanj. Nato $u$ vstavimo v enačbo (8), ki nam poda vrednosti za vse $\xi_i$. Le-te uporabimo v enačbi (7) in dobimo še vrednosti za $\eta_i$. S tem smo našli vrednosti vseh koordinat krajišč palic, saj iz definicije $\xi_i$ in $\eta_i$ sledi 
 \begin{equation}
 \begin{split}
 x_i = x_0 + \sum_{j=1}^{i} \xi_j \qquad i = 1, \ldots, 2p+1 \\
@@ -145,8 +149,12 @@ Preden lahko uporabimo Newtonovo metodo, moramo definirati funkcijo $U(u)$, kate
 Če upoštevamo, da je $\xi_i = x_i - x_{i-1}$, vidimo da lahko zapišemo
 \[ U(u) = \sum_{i=1}^{n+1} \xi_i - x_{n+1} + x_0 = 0 \]
 in $u$ res nastopa v zgornji funkciji, saj smo $\xi_i$ izrazili z njim. Za preglednejši zapis definiramo še 
-\[ w_i = u \nu_i \qquad i=1, \ldots, 2p+1\]
-\[ \nu_i = \left ( \sum_{j=1}^{p} \mu_j - \sum_{j=1}^{i-1} \mu_j \right ) \qquad i=1, \ldots, 2p+1\]
+\begin{equation}
+w_i = u \nu_i \qquad i=1, \ldots, 2p+1
+\end{equation}
+\begin{equation}
+\nu_i = \left ( \sum_{j=1}^{p} \mu_j - \sum_{j=1}^{i-1} \mu_j \right ) \qquad i=1, \ldots, 2p+1
+\end{equation}
 in dobimo
 \begin{equation}
 U(u) =  \sum_{i=1}^{n+1} L_i (1 + w_i ^2) ^ {-\frac{1}{2}} - x_{n+1} + x_0
@@ -155,10 +163,12 @@ Odvod $U$ pa je
 \begin{equation}
 U'(u) = \frac{dU}{du} (u) = - \sum_{i=1}^{n+1} L_i (1 + w_i ^2) ^ {-\frac{3}{2}} w_i \nu_i 
 \end{equation}
-(9), (10) sedaj vstavimo v predpis za Newtonovo metodo in dobimo iteracijsko formulo s katero izračunamo približek za $u$. Izbrati moramo le še ustrezen začetni približek $u_0$. Iteracijo zaključimo, ko je razlika zadnjih dveh izračunanih približkov manjša od tolerance, ki smo jo izbrali.
-\begin{equation}
-u_{n+1} = u_n - \frac{U(u_n)}{U'(u_n)}
-\end{equation}
+(12), (13) sedaj vstavimo v predpis za Newtonovo metodo in dobimo iteracijsko formulo s katero izračunamo približek za $u$. Izbrati moramo le še ustrezen začetni približek $u_0$. Iteracijo zaključimo, ko je razlika zadnjih dveh izračunanih približkov manjša od tolerance, ki smo jo izbrali.
+\[ u_{n+1} = u_n - \frac{U(u_n)}{U'(u_n)} \]
+
+% IMPLEMENTACIJA
+
+\section{Implementacija}
 
 % REZULTATI
 
