@@ -62,7 +62,7 @@ $g$ je gravitacijska konstanta in ne vpliva na minimum potencialne energije, zat
 Za iskane točke $(x_i,y_i)$ velja še Pitagorov izrek $(x_i - x_{i-1})^2 + (y_i - y_{i-1})^2 = L_i ^2$, kar pomeni, da iščemo vezani ekstrem. 
 
 Uporabimo Lagrangeovo metodo in problem prevedemo na reševanje (nevezanega) ekstrema funkcije
-\[ G(x,y,\lambda) = \sum_{i=1}^{2p+1} \frac{1}{2} M_i (y_{i-1} - y_i) + \lambda_i ((x_i - x_{i-1})^2 + (y_i - y_{i-1})^2 - L_i ^2 \]
+\[ G(x,y,\lambda) = \sum_{i=1}^{2p+1} \frac{1}{2} M_i (y_{i-1} - y_i) + \lambda_i ((x_i - x_{i-1})^2 + (y_i - y_{i-1})^2 - L_i ^2) \]
 $G$ parcialno odvajamo z $x_i, y_i$ za $i=1, \ldots, 2p$ ter z $\lambda_i$ za $i=1, \ldots, 2p+1$.
 
 \[ \frac{\partial G}{\partial x_i} = 2\lambda_i (x_i - x_{i-1}) - 2\lambda_{i+1} (x_{i+1} - x_i) \qquad i=1, \ldots, 2p \]
@@ -137,7 +137,28 @@ y_i = y_0 + \sum_{j=1}^{i} \eta_j \qquad i = 1, \ldots, 2p+1
 \end{split}
 \end{equation}
 
-Približek za $u$ bomo poiskali z Newtonovo metodo.
+Približek za $u$ bomo poiskali z Newtonovo metodo. To je iteracijska metoda za iskanje ničle funkcije, ki dobro deluje pri iskanju ničle prve stopnje s primernim začetnim približkom $x_0$. Do novega približka pridemo s formulo
+\[ x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)} \]
+kjer je $f$ funkcija, katere ničlo iščemo, $f'$ pa njen odvod. 
+
+Preden lahko uporabimo Newtonovo metodo, moramo definirati funkcijo $U(u)$, katere približek za ničlo bo naš približek za $u$.
+Če upoštevamo, da je $\xi_i = x_i - x_{i-1}$, vidimo da lahko zapišemo
+\[ U(u) = \sum_{i=1}^{n+1} \xi_i - x_{n+1} + x_0 = 0 \]
+in $u$ res nastopa v zgornji funkciji, saj smo $\xi_i$ izrazili z njim. Za preglednejši zapis definiramo še 
+\[ w_i = u \nu_i \qquad i=1, \ldots, 2p+1\]
+\[ \nu_i = \left ( \sum_{j=1}^{p} \mu_j - \sum_{j=1}^{i-1} \mu_j \right ) \qquad i=1, \ldots, 2p+1\]
+in dobimo
+\begin{equation}
+U(u) =  \sum_{i=1}^{n+1} L_i (1 + w_i ^2) ^ {-\frac{1}{2}} - x_{n+1} + x_0
+\end{equation}
+Odvod $U$ pa je
+\begin{equation}
+U'(u) = \frac{dU}{du} (u) = - \sum_{i=1}^{n+1} L_i (1 + w_i ^2) ^ {-\frac{3}{2}} w_i \nu_i 
+\end{equation}
+(9), (10) sedaj vstavimo v predpis za Newtonovo metodo in dobimo iteracijsko formulo s katero izračunamo približek za $u$. Izbrati moramo le še ustrezen začetni približek $u_0$. Iteracijo zaključimo, ko je razlika zadnjih dveh izračunanih približkov manjša od tolerance, ki smo jo izbrali.
+\begin{equation}
+u_{n+1} = u_n - \frac{U(u_n)}{U'(u_n)}
+\end{equation}
 
 % REZULTATI
 
