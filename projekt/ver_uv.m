@@ -13,11 +13,7 @@ function X = ver_uv(W0,zac,L,M)
 
 n = length(L);
 
-mi = [];
-for i=1:n-1
-    m = (M(i) + M(i+1)) / 2; %(23)
-    mi = [mi m];
-end
+mi = (M(1:end-1) + M(2:end)) ./ 2; % (23)
 
 vsote_mi = [0];
 for i=2:n
@@ -35,21 +31,14 @@ Z = fsolve(F,W0);
 u = Z(1);
 v = Z(2);
 
-x = [zac(1,1)];
-y = [zac(2,1)];
-ksi = 0;
-eta = 0;
-n = length(L);
-for i=1:n
-   k = L(i) / sqrt(1 + (v - u * vsote_mi(i))^2); % pod (33)
-   ksi = ksi + k;
-   eta = eta + k * (v - u * vsote_mi(i));
+ksi = L ./ sqrt(1 + (v - u .* vsote_mi).^2); 
+eta = ksi .* (v - u .* vsote_mi);
 
-   x_i = zac(1,1) + ksi; % nad (20)
-   y_i = zac(2,1) + eta;
-   x = [x x_i];
-   y = [y y_i];
-end
+x = cumsum(ksi) + zac(1,1); 
+y = cumsum(eta) + zac(2,1);
+x = [zac(1,1) x];
+y = [zac(2,1) y];
+
 X = [x; y];
 end
 
