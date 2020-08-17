@@ -72,8 +72,8 @@ $g$ je gravitacijska konstanta in ne vpliva na minimum potencialne energije, zat
 Za iskane točke $(x_i,y_i)$ velja še Pitagorov izrek $(x_i - x_{i-1})^2 + (y_i - y_{i-1})^2 = L_i ^2$, kar pomeni, da iščemo vezani ekstrem. 
 
 Uporabimo Lagrangeovo metodo in problem prevedemo na reševanje (nevezanega) ekstrema funkcije
-\[ G(x,y,\lambda) = \sum_{i=1}^{2p+1} \frac{1}{2} M_i (y_{i-1} - y_i) + \lambda_i ((x_i - x_{i-1})^2 + (y_i - y_{i-1})^2 - L_i ^2) \]
-$G$ parcialno odvajamo z $x_i, y_i$ za $i=1, \ldots, 2p$ ter z $\lambda_i$ za $i=1, \ldots, 2p+1$.
+\[ G(x,y,\lambda) = \sum_{i=1}^{2p+1} \frac{1}{2} M_i (y_{i-1} + y_i) + \lambda_i ((x_i - x_{i-1})^2 + (y_i - y_{i-1})^2 - L_i ^2) \]
+$G$ parcialno odvajamo po $x_i, y_i$ za $i=1, \ldots, 2p$ ter po $\lambda_i$ za $i=1, \ldots, 2p+1$.
 
 \[ \frac{\partial G}{\partial x_i} = 2\lambda_i (x_i - x_{i-1}) - 2\lambda_{i+1} (x_{i+1} - x_i) \qquad i=1, \ldots, 2p \]
 \[ \frac{\partial G}{\partial y_i} = \frac{1}{2} (M_i + M_{i+1}) + 2\lambda_i (y_i - y_{i-1}) - 2\lambda_{i+1} (y_{i+1} - y_i) \qquad  i=1, \ldots, 2p \]
@@ -81,12 +81,12 @@ $G$ parcialno odvajamo z $x_i, y_i$ za $i=1, \ldots, 2p$ ter z $\lambda_i$ za $i
 Za preglednejši zapis uvedemo 
 \begin{equation}
 \begin{split}
-\xi_i = x_i - x_{i-1} \\
-\eta_i = y_i - y_{i-1} \\
-\mu_i = \frac{M_i + M_{i+1}}{2}
+\xi_i = x_i - x_{i-1} \qquad i=1, \ldots, 2p+1 \\
+\eta_i = y_i - y_{i-1} \qquad i=1, \ldots, 2p+1 \\
+\mu_i = \frac{M_i + M_{i+1}}{2} \qquad i=1, \ldots, 2p
 \end{split}
 \end{equation}
-za $i=1, \ldots, 2p+1$, odvode enačimo z 0, še malo uredimo in dobimo $6p+1$ enačb
+odvode enačimo z 0, še malo uredimo in dobimo $6p+1$ enačb
 
 \begin{equation}
 \lambda_i \xi_i - \lambda_{i+1} \xi_{i+1} = 0 \qquad i=1, \ldots, 2p 
@@ -102,9 +102,9 @@ za $i=1, \ldots, 2p+1$, odvode enačimo z 0, še malo uredimo in dobimo $6p+1$ e
 
 Zgornji sistem enačb v primeru splošne diskretne verižnice preoblikujemo v sistem dveh enačb za 2 neznanki. V našem primeru pa bomo zaradi lihega števila členov in simetričnosti verižnice sistem lahko preoblikovali kar v eno enačbo z eno neznanko. 
 
-Za $i=1, \ldots, 2p$ zapišemo
-\[ \lambda_i \xi_i = - \frac{1}{2u} \qquad oziroma \qquad \lambda_i = - \frac{1}{2u \xi_i}  \]
-vstavimo v enačbo (3) in dobimo
+Iz enačbe (2) sledi spodnja enakost
+\[ \lambda_i \xi_i = - \frac{1}{2u} \qquad oziroma \qquad \lambda_i = - \frac{1}{2u \xi_i} \qquad i=1, \ldots, 2p  \]
+$u$ je konstanta, ki jo bomo določili kasneje. Enakost vstavimo v enačbo (3) in dobimo
 \[ \frac{\eta_i}{2u \xi_i} - \frac{\eta_{i+1}}{2u \xi_{i+1}} = \frac{1}{2} \mu_i \qquad i=1, \ldots, 2p \]
 Z nekaj preurejanja pridemo do rekurzivne enačbe
 \[ \frac{\eta_{i+1}}{\xi_{i+1}} =  \frac{\eta_i}{\xi_i} - u \mu_i \]
@@ -114,7 +114,7 @@ Ker enaka enačba velja tudi za $\frac{\eta_i}{\xi_i}, \frac{\eta_{i-1}}{\xi_{i-
 \frac{\eta_{i}}{\xi_{i}} & =  \frac{\eta_{i-1}}{\xi_{i-1}} - u \mu_{i-1}  \\
                                                & =  \frac{\eta_{i-2}}{\xi_{i-2}} - u \mu_{i-2} - u \mu_{i-1}  \\
                                                & = \ldots  \\
-                                               & = \frac{\eta_1}{\xi_1} - u (\mu_2 - \mu_3 - \ldots - \mu_{i-1})  \\
+                                               & = \frac{\eta_1}{\xi_1} - u (\mu_1 - \mu_2 - \ldots - \mu_{i-1})  \\
                                                & = \frac{\eta_1}{\xi_1} - u \sum_{j=1}^{i-1} \mu_j
 \end{split}
 \end{equation}
@@ -190,7 +190,7 @@ Najprej kličemo funkcijo \textit{risi\_veriznica(zac,L,M)}, ki nam vrne matriko
 
 Prvotna verižnica ima liho mnogo členov, zato problem rešujemo po zgoraj opisanem postopku. Z razpolavljanjem palic pa dobimo verižnico s sodo mnogo členi in za reševanje uporabimo splošno rešitev, ki smo jo implementirali na vajah. Funkcija \textit{risi\_veriznica} se na podlagi dolžine vektorja $L$ odloči, kateri postopek bo uporabljen.
 
-V primeru lihega števila definira začetni približek $u_0$ in pokliče funkcijo \textit{ver\_u(u\_0,zac,L,M)}. Le-ta najprej izračuna vektor $\mu$ s členi $\mu_i$ iz enačbe (1) ter vektor \textit{vsote\_mi} delnih vsot iz enačbe (11). S pomočjo \textit{sistem\_u(u,zac,L,vsote\_mi)} dobimo predpis za funkcijo $U(u)$ (enačba (12)), potem pa poiščemo približek za njeno ničlo z Newtonovo metodo. Dobljen približek $u$ uporabimo v vektorjih \textit{ksi} in \textit{eta}, katerih elementi so definirani v enačbah (8) in (7). Nazadnje uporabimo še predpisa iz enačbe (9) in dobimo vektorja $x$,$y$ s koordinatami krajišč palic podane verižnice.
+V primeru lihega števila definira začetni približek $u_0$ in pokliče funkcijo \textit{ver\_u($u_0$,zac,L,M)}. Le-ta najprej izračuna vektor $\mu$ s členi $\mu_i$ iz enačbe (1) ter vektor \textit{vsote\_mi} delnih vsot iz enačbe (11). S pomočjo \textit{sistem\_u(u,zac,L,vsote\_mi)} dobimo predpis za funkcijo $U(u)$ (enačba (12)), potem pa poiščemo približek za njeno ničlo z Newtonovo metodo. Dobljen približek $u$ uporabimo v vektorjih \textit{ksi} in \textit{eta}, katerih elementi so definirani v enačbah (8) in (7). Nazadnje uporabimo še predpisa iz enačbe (9) in dobimo vektorja $x$,$y$ s koordinatami krajišč palic podane verižnice.
 
 
 % REZULTATI

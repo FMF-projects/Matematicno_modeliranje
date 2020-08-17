@@ -17,14 +17,14 @@ mi = (M(1:end-1) + M(2:end)) ./ 2; % enacba (1)
 p = (n-1)/2;
 vsote_mi = sum(mi(1:p)); % enacba (11)
 for i=2:n
-    vsota = sum(mi(1:p)) - sum(mi(1:i-1)); %(33)
+    vsota = sum(mi(1:p)) - sum(mi(1:i-1));
     vsote_mi = [vsote_mi vsota];
 end
 
 % Newtonova metoda
-F = @(u) sistem_u(u,zac,L,vsote_mi);
-JF = @(u) jacobian_u(u,L,vsote_mi); % enacba (13)
-u = newton(F,JF,u0,1e-14);
+U = @(u) sistem_u(u,zac,L,vsote_mi);
+JU = @(u) jacobian_u(u,L,vsote_mi); % enacba (13)
+u = newton(U,JU,u0,1e-14);
 
 ksi = L ./ sqrt(1 + (u .* vsote_mi).^2); % enacba (8)
 eta = ksi .* (u .* vsote_mi); % enacba (7)

@@ -1,6 +1,6 @@
 function Z = jacobian_uv(W,L,vsote_mi)
 % JACOBIAN_UV zgenerira Jacobijevo matriko v tocki W
-% za sistem enacb (30) in (31) iz prilozenega clanka.
+% za sistem enacb (30) in (31) iz clanka.
 % 
 % Vhodni parametri:
 % W = [u;v], kjer sta u in v iskani neznanki.
